@@ -78,7 +78,7 @@ export default {
       </section>
 
       <footer class="todoapp__footer" data-cy="Footer">
-        <span class="todo-count" data-cy="TodosCounter"> 3 items left </span>
+        <span class="todo-count" data-cy="TodosCounter"> 5 items left </span>
 
         <nav class="filter" data-cy="Filter">
           <a href="#/" class="filter__link selected" data-cy="FilterLinkAll">
