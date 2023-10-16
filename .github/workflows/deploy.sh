@@ -1,51 +1,29 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
 
-on:
-  # Runs on pushes targeting the default branch
-  push:
-    branches: ['main']
+# about on errors
+set -e
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+# build
+npm run build
 
-# Sets the GITHUB_TOKEN permissions to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+# navigate into the build output directory
+cd dist
 
-# Allow one concurrent deployment
-concurrency:
-  group: 'pages'
-  cancel-in-progress: true
+# place .nojekyll to bypass Jekyll processing
+echo > .nojekyll
 
-jobs:
-  # Single deploy job since we're just deploying
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Set up Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: 'npm'
-      - name: Install dependencies
-        run: npm install
-      - name: Build
-        run: npm run build
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          # Upload dist repository
-          path: './dist'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v1
+# if you are deploying to a custom domian
+# echo 'www.example.com' > CNAME
+
+git init
+git checkout -B main
+git add -A
+git commit -m 'deploy'
+
+# if you are deploying to https://<USERNAME>.github.io
+# git push -f git@github.com:<USERNAME>/<USERNAME>.github.io.git main
+
+# if you are deploying to https://<USERNAME>.github.io/<REPO>
+# git push -f git@github.com:<USERNAME>/<REPO>.git main:gh-pages
+git push -f git@github.com:MarianVolytskyi/vue-todo.git main:gh-pages
+
+cd -
